@@ -11,8 +11,22 @@ import dailyStatsRoutes from './src/routes/dailyStatsRoutes.js'
 
 const app = express()
 
+const allowedOrigins = [
+    'http://localhost:5173',
+    'https://leanly-mu.vercel.app'
+]
 
-app.use(cors())
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true)
+        } else {
+            callback(new Error('Not allowed by CORS'))
+        }
+    }
+}
+
+app.use(cors(corsOptions))
 app.use(express.json())
 
 app.use('/api/register', registerRoutes)

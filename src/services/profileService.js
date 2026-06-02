@@ -4,6 +4,7 @@ import { appErr } from "../validation/appErr.js";
 export const profileData = async (data) => {
     try {
         const userId = data.userId 
+        console.log("USER ID:", userId)
         const [pData] = await db.promise().query(
             `SELECT uid, nickname, email, userWeight, userHeight, userAge, gender, activity, goal, goalWeight FROM users WHERE uid = ?`,
             [userId]

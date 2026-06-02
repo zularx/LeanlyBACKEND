@@ -21,6 +21,7 @@ export const postMeal = async (meal, userId) => {
         
         return 'Прием пищи добавлен!'
     } catch (err) {
+        console.log(err)
         throw new Error("Внутренняя ошибка сервера, повторите попытку позже.")
     }
 }
@@ -67,6 +68,7 @@ export const getSummary = async (selectedDate, userId) => {
 
         return result
     } catch (err) {
+        console.log(err)
         throw new Error('Внутренняя ошибка сервера, попробуйте позже.')
     }
 }

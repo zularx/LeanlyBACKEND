@@ -19,23 +19,6 @@ export const register = async (data) => {
         goalWeight
     } = data
     try {
-        const [existingEmail] = await db.promise().query(
-            'SELECT * FROM users WHERE email = ?',
-            [email]
-        )
-        const [existingNickname] = await db.promise().query(
-            'SELECT * FROM users WHERE nickname = ?',
-            [nickname]
-        )
-
-        if (existingEmail.length > 0) {
-            throw new appErr('Аккаунт с таким email уже существует!', 400)
-        }
-
-        if (existingNickname.length > 0) {
-            throw new appErr('Аккаунт с таким никнеймом уже существует!', 400)
-        }
-
         const hashedPassword = await bcrypt.hash(password, 10)
         const [result] = await db.promise().query(
             `INSERT INTO users
@@ -66,12 +49,22 @@ export const register = async (data) => {
     } catch (err) {
         console.log("ERROR:", err)
 
+        if (err.code === 'ER_DUP_ENTRY') {
+            if (err.message.includes('email')) {
+                throw new appErr('Аккаунт с таким email уже существует!', 400)
+            }
+            if (err.message.includes('nickname')) {
+                throw new appErr('Аккаунт с таким никнеймом уже существует!', 400)
+            }
+        }
+
+
         if (err instanceof appErr) {
             throw err
         }
 
         
 
-        throw new Error("Внутренняя ошибка базы данных, попробуйте позже.", 500)
+        throw new Error("Внутренняя ошибка базы данных, попробуйте позже.")
     }
 }

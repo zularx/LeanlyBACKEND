@@ -12,7 +12,7 @@ export const authControll = async (req, res) => {
         }) 
     } catch (err){
         if (err.name === 'ZodError') {
-            return res.status(400).json({
+            return res.status(422).json({
                 issues: err.issues.map(e => ({
                     field: e.path[0],
                     message: e.message

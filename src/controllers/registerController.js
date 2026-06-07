@@ -22,7 +22,8 @@ export const registerCotroll = async (req, res) => {
 
         if (err.name === 'appErr') {
             return res.status(err.statusCode).json({
-                message: err.message
+                message: err.message,
+                field: err.field
             })
         }
 

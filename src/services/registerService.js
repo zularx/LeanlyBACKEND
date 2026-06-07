@@ -51,10 +51,10 @@ export const register = async (data) => {
 
         if (err.code === 'ER_DUP_ENTRY') {
             if (err.message.includes('email')) {
-                throw new appErr('Аккаунт с таким email уже существует!', 400)
+                throw new appErr('Аккаунт с таким email уже существует!', 400, 'email')
             }
             if (err.message.includes('nickname')) {
-                throw new appErr('Аккаунт с таким никнеймом уже существует!', 400)
+                throw new appErr('Аккаунт с таким никнеймом уже существует!', 400, 'nickname')
             }
         }
 

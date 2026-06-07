@@ -25,3 +25,26 @@ export const profileData = async (data) => {
         throw new Error("Внутренняя ошибка сервера, попробуйте позже.", 500)
     }
 }
+
+export const deleteProfile = async (data) => {
+    try {
+        const userId = data.userId
+        const [response] = await db.promise().query(
+            `DELETE FROM users
+            WHERE uid = ?`,
+            [userId]
+        )
+
+        if (response.affectedRows === 0) {
+            throw new appErr('Похоже такого пользователя не существует', 404)
+        }
+
+        return 'Пользователь успешно удален'
+    } catch (err) {
+        if (err instanceof appErr) {
+            throw err
+        }
+
+        throw new Error("Внутренняя ошибка сервера, попробуйте позже.", 500)
+    }
+}

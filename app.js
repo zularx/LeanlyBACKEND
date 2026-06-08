@@ -7,7 +7,7 @@ import weightRoutes from './src/routes/weightRoutes.js'
 import weightHistoryRoutes from './src/routes/weightHistoryRoutes.js'
 import mealsRoutes from './src/routes/mealsRoutes.js'
 import dailyStatsRoutes from './src/routes/dailyStatsRoutes.js'
-
+import profileSettingsRoutes from './src/routes/profileSettingsRoutes.js'
 
 const app = express()
 
@@ -36,5 +36,6 @@ app.use('/api/weight', weightRoutes)
 app.use('/api/weight-history', weightHistoryRoutes)
 app.use('/api/meals', mealsRoutes)
 app.use('/api/daily-stats', dailyStatsRoutes)
+app.use('/api/profile-settings', profileSettingsRoutes)
 
 export default app

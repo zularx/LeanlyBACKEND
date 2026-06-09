@@ -54,3 +54,27 @@ export const getDailyStats = async (selectedDate, userId) => {
         throw new Error('Внутренняя ошибка сервера.')
     }
 }
+
+export const getDailyStatsHistory = async (userId) => {
+    try {
+        const [result] = await db.promise().query(
+            `SELECT summary_date, steps FROM daily_stats
+            WHERE user_id = ?`,
+            [userId]
+        )
+
+        if (result.length === 0) {
+            throw new appErr("Статистика шагов пользователя не найдена!", 404)
+        }
+
+        return result
+    } catch (err) {
+        console.log(err)
+
+        if (err instanceof appErr) {
+            throw err
+        }
+
+        throw new Error('Внутренняя ошибка сервера.')
+    }
+}

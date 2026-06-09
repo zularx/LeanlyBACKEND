@@ -1,4 +1,4 @@
-import { postDailyStats, getDailyStats } from '../services/dailyStatsService.js'
+import { postDailyStats, getDailyStats, getDailyStatsHistory } from '../services/dailyStatsService.js'
 import { dailyStatsSchema } from '../validation/dailyStatsValidation.js'
 
 export const postDailyStatsControll = async (req, res) => {
@@ -48,6 +48,26 @@ export const getDailyStatsControll = async (req, res) => {
         }
         return res.status(500).json({
             message: "Внутренняя ошибка сервера."
+        })
+    }
+}
+
+export const getDailyStatsHistoryControll = async (req, res) => {
+    try {
+        const userId = req.user.userId
+
+        const result = await getDailyStatsHistory(userId)
+
+        return res.status(200).json(result)
+    } catch (err) {
+        if (err.name === 'appErr') {
+            return res.status(err.statusCode).json({
+                message: err.message
+            })
+        }
+
+        return res.status(500).json({
+            message: err.message
         })
     }
 }

@@ -4,7 +4,7 @@ import { postMeal, getMeals, getSummary } from "../services/mealsService.js"
 export const mealPostControll = async (req, res) => {
     try {
         const validatedMeal = mealSchema.parse(req.body)
-        const result = await postMeal(validatedMeal, req.user.userId)
+        const result = await postMeal(validatedMeal, req.user.userId, req.params.date)
 
         return res.status(201).json({
             message: result

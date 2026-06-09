@@ -1,7 +1,7 @@
 import db from "../config/db.js"
 import { appErr } from "../validation/appErr.js"
 
-export const postMeal = async (meal, userId) => {
+export const postMeal = async (meal, userId, selectedDate) => {
     try {
         const {
             meal_type,
@@ -14,9 +14,9 @@ export const postMeal = async (meal, userId) => {
     
         await db.promise().query(
             `INSERT INTO meals
-            (user_id, meal_type, meal_name, calories, proteins, fats, carbs)
-            VALUES(?, ?, ?, ?, ?, ?, ?)`,
-            [userId, meal_type, meal_name, calories, proteins, fats, carbs]
+            (user_id, meal_type, meal_name, calories, proteins, fats, carbs, selected_date)
+            VALUES(?, ?, ?, ?, ?, ?, ?, ?)`,
+            [userId, meal_type, meal_name, calories, proteins, fats, carbs, selectedDate]
         )
         
         return 'Прием пищи добавлен!'

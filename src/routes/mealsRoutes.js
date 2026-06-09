@@ -5,7 +5,7 @@ import { authMiddleware } from '../middleware/userMiddleware.js'
 const router = express.Router()
 
 
-router.post('/', authMiddleware, mealPostControll)
+router.post('/:date', authMiddleware, mealPostControll)
 router.get('/:date', authMiddleware, getMealsControll)
 router.get('/:date/summary', authMiddleware, getSummaryControll)
 

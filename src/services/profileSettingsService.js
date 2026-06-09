@@ -21,7 +21,9 @@ export const profileSettingsData = async (userId) => {
 }
 
 export const profileSettingUpdate = async (data, userId) => {
+    const connection = await db.promise().getConnection()
     try {
+        await connection.beginTransaction()
         const {
             nickname,
             userHeight,
@@ -31,7 +33,29 @@ export const profileSettingUpdate = async (data, userId) => {
             goal
         } = data
 
-        const res = await db.promise().query(
+        const [currentUsers] = await connection.query(
+            `SELECT goal, userWeight FROM users WHERE uid = ?`,
+            [userId]
+        )
+
+        if (currentUsers.length === 0) {
+            throw new appErr('Пользователь не найден', 404)
+        }
+
+        const oldGoal = currentUsers[0].goal
+        const currentWeight = currentUsers[0].userWeight
+
+        if (oldGoal !== goal) {
+            await connection.query(
+                `UPDATE users
+                SET 
+                    userStartWeight = ?
+                WHERE uid = ?`,
+                [currentWeight, userId]
+            )
+        }
+
+        await connection.query(
             `UPDATE users
             SET
                 nickname = ?,
@@ -44,10 +68,15 @@ export const profileSettingUpdate = async (data, userId) => {
             [nickname, userHeight, goalWeight, userAge, activity, goal, userId]
         )
 
+        await connection.commit()
+
         return 'Данные обновлены!'
     } catch(err) {
+        await connection.rollback()
         console.log(err)
         throw new Error('Внутренняя ошибка сервера, попробуйте позже.')
+    } finally {
+        connection.release()
     }
 
 }

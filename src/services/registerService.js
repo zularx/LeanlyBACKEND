@@ -22,8 +22,8 @@ export const register = async (data) => {
         const hashedPassword = await bcrypt.hash(password, 10)
         const [result] = await db.promise().query(
             `INSERT INTO users
-        (nickname, email, password, userWeight, userHeight, userAge, gender, activity, goal, goalWeight)
-        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        (nickname, email, password, userWeight, userHeight, userAge, gender, activity, goal, goalWeight, userStartWeight)
+        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
                 nickname,
                 email,
@@ -34,7 +34,8 @@ export const register = async (data) => {
                 gender,
                 activity,
                 goal,
-                goalWeight
+                goalWeight,
+                userWeight
             ]
         )
         

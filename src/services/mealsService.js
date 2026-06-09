@@ -62,7 +62,7 @@ export const getSummary = async (selectedDate, userId) => {
             SUM(carbs) AS totalCarbs
             FROM meals
             WHERE user_id = ?
-            AND DATE(created_at) = ?`,
+            AND selected_date = ?`,
             [userId, selectedDate]
         )
 

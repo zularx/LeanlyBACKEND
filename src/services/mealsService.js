@@ -32,7 +32,7 @@ export const getMeals = async (selectedDate, userId) => {
         const [result] = await db.promise().query(
             `SELECT * FROM meals
             WHERE user_id = ?
-            AND DATE(created_at) = ?`,
+            AND selected_date = ?`,
             [userId, selectedDate]
         )
 

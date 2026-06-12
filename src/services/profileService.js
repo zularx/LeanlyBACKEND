@@ -14,7 +14,7 @@ export const profileData = async (data) => {
             throw new appErr('Данные пользователя не найдены.', 404)
         }
 
-        if (pData[0].user_avatar === '') {
+        if (pData[0].user_avatar === null || pData[0].user_avatar === '') {
             pData[0].user_avatar = 'default_avatar.webp'
         }
 

@@ -1,5 +1,11 @@
 import db from "../config/db.js";
 import { appErr } from "../validation/appErr.js";
+import fs from 'fs/promises'
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 export const profileData = async (data) => {
     try {
@@ -33,11 +39,34 @@ export const profileData = async (data) => {
 export const deleteProfile = async (data) => {
     try {
         const userId = data.userId
+        const [user] = await db.promise().query(
+            `SELECT user_avatar FROM users
+            WHERE uid = ?`,
+            [userId]
+        )
+
+        if (user.length === 0) {
+            throw new appErr('Пользователь не найден', 404)
+        }
+
+        const avatarFilename = user[0].user_avatar
+
         const [response] = await db.promise().query(
             `DELETE FROM users
             WHERE uid = ?`,
             [userId]
         )
+
+        if (avatarFilename) {
+            const filePath = path.join(__dirname, '../public/uploads/avatars', avatarFilename)
+            
+            try {
+                await fs.unlink(filePath)
+                console.log(`Файл ${avatarFilename} успешно удален с сервера.`)
+            } catch (fileErr) {
+                console.error(`Файл не найден на диске, но запись из БД удалена: ${filePath}`)
+            }
+        }
 
         if (response.affectedRows === 0) {
             throw new appErr('Похоже такого пользователя не существует', 404)

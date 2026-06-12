@@ -6,7 +6,7 @@ export const profileData = async (data) => {
         const userId = data.userId 
         console.log("USER ID:", userId)
         const [pData] = await db.promise().query(
-            `SELECT uid, nickname, email, userWeight, userHeight, userAge, gender, activity, goal, goalWeight, userStartWeight, user_avatar FROM users WHERE uid = ?`,
+            `SELECT uid, nickname, email, userWeight, userHeight, userAge, gender, activity, goal, goalWeight, userStartWeight, user_avatar, avg_steps FROM users WHERE uid = ?`,
             [userId]
         )
 

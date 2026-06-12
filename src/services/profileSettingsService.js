@@ -4,7 +4,7 @@ import { appErr } from "../validation/appErr.js";
 export const profileSettingsData = async (userId) => {
     try {
         const result = await db.promise().query(
-            `SELECT nickname, userHeight, goalWeight, userAge, activity, goal FROM users
+            `SELECT nickname, userHeight, goalWeight, userAge, activity, goal, avg_steps FROM users
             WHERE uid = ?`,
             [userId]
         )
@@ -13,6 +13,7 @@ export const profileSettingsData = async (userId) => {
             throw new appErr('Пользователь не найден', 404)
         }
 
+        console.log(result[0])
         return result[0];
     } catch (err) {
         console.log(err)
@@ -30,8 +31,11 @@ export const profileSettingUpdate = async (data, userId) => {
             goalWeight,
             userAge,
             activity,
-            goal
+            goal,
+            avgSteps
         } = data
+
+        console.log(data)
 
         const [currentUsers] = await connection.query(
             `SELECT goal, userWeight FROM users WHERE uid = ?`,
@@ -63,9 +67,10 @@ export const profileSettingUpdate = async (data, userId) => {
                 goalWeight = ?,
                 userAge = ?,
                 activity = ?,
-                goal = ?
+                goal = ?,
+                avg_steps = ?
             WHERE uid = ?`,
-            [nickname, userHeight, goalWeight, userAge, activity, goal, userId]
+            [nickname, userHeight, goalWeight, userAge, activity, goal, avgSteps, userId]
         )
 
         await connection.commit()

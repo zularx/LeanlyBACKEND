@@ -23,7 +23,8 @@ export const register = async (data, avatarFile) => {
         gender,
         activity,
         goal,
-        goalWeight
+        goalWeight,
+        avg_steps
     } = data
 
     let avatarFilename = 'default_avatar.webp'
@@ -42,8 +43,8 @@ export const register = async (data, avatarFile) => {
         const hashedPassword = await bcrypt.hash(password, 10)
         const [result] = await db.promise().query(
             `INSERT INTO users
-        (nickname, email, password, userWeight, userHeight, userAge, gender, activity, goal, goalWeight, userStartWeight, user_avatar)
-        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        (nickname, email, password, userWeight, userHeight, userAge, gender, activity, goal, goalWeight, userStartWeight, user_avatar, avg_steps)
+        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
                 nickname,
                 email,
@@ -56,7 +57,8 @@ export const register = async (data, avatarFile) => {
                 goal,
                 goalWeight,
                 userWeight,
-                avatarFilename
+                avatarFilename,
+                avg_steps
             ]
         )
         

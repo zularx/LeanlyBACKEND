@@ -6,12 +6,16 @@ export const profileData = async (data) => {
         const userId = data.userId 
         console.log("USER ID:", userId)
         const [pData] = await db.promise().query(
-            `SELECT uid, nickname, email, userWeight, userHeight, userAge, gender, activity, goal, goalWeight, userStartWeight FROM users WHERE uid = ?`,
+            `SELECT uid, nickname, email, userWeight, userHeight, userAge, gender, activity, goal, goalWeight, userStartWeight, user_avatar FROM users WHERE uid = ?`,
             [userId]
         )
 
         if (pData.length === 0) {
             throw new appErr('Данные пользователя не найдены.', 404)
+        }
+
+        if (pData[0].user_avatar === '') {
+            pData[0].user_avatar = 'default_avatar.webp'
         }
 
         return pData[0]

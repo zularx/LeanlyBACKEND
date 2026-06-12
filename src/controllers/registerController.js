@@ -5,7 +5,7 @@ import { registerSchema } from "../validation/registerValidation.js"
 export const registerCotroll = async (req, res) => {
     try {
         const validated = registerSchema.parse(req.body)
-        const result = await register(validated)
+        const result = await register(validated, req.file)
 
         return res.status(201).json({
             message: result

@@ -8,8 +8,10 @@ import weightHistoryRoutes from './src/routes/weightHistoryRoutes.js'
 import mealsRoutes from './src/routes/mealsRoutes.js'
 import dailyStatsRoutes from './src/routes/dailyStatsRoutes.js'
 import profileSettingsRoutes from './src/routes/profileSettingsRoutes.js'
+import googleHealthRoute from './src/routes/googleHealthRoute.js'
 import path from 'path'
 import { fileURLToPath } from 'url'
+
 
 
 const __filename = fileURLToPath(import.meta.url)
@@ -45,6 +47,7 @@ app.use('/api/weight-history', weightHistoryRoutes)
 app.use('/api/meals', mealsRoutes)
 app.use('/api/daily-stats', dailyStatsRoutes)
 app.use('/api/profile-settings', profileSettingsRoutes)
+app.use('/api/google/', googleHealthRoute)
 
 app.use(express.static(path.join(__dirname, 'src', 'public')));
 

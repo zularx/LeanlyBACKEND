@@ -3,9 +3,8 @@ import { appErr } from "../validation/appErr.js"
 import path from 'path'
 import sharp from "sharp"
 import { fileURLToPath } from 'url'
-
-
 import bcrypt from 'bcrypt'
+
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)

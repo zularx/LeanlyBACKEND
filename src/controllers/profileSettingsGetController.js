@@ -25,7 +25,7 @@ export const profileSettingsGetControll = async (req, res) => {
 export const profileSettingsPostControll = async (req, res) => {
     try {
         const validatedProfileUpdate = profileUpdateSchema.parse(req.body)
-        const result = await profileSettingUpdate(validatedProfileUpdate, req.user.userId)
+        const result = await profileSettingUpdate(validatedProfileUpdate, req.user.userId, req.file)
 
         return res.status(201).json({
             message: result

@@ -26,7 +26,7 @@ export const register = async (data, avatarFile) => {
         avg_steps
     } = data
 
-    let avatarFilename = 'default_avatar.webp'
+    let avatarFilename = ' '
 
     try {
         if (avatarFile) {

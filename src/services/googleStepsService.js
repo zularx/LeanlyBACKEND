@@ -30,11 +30,7 @@ export const getCurrentSteps = async (userId, steps_date) => {
         // 3. Формируем таймстампы в миллисекундах
         const targetDate = steps_date ? new Date(steps_date) : new Date();
 
-        // Начало дня в локальном времени текущей машины
-        const startTime = new Date(targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate(), 0, 0, 0, 0);
-
-        // Конец дня в локальном времени
-        const endTime = new Date(targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate(), 23, 59, 59, 999);
+g
 
         // 4. Прямой HTTP POST-запрос к фитнес-агрегатору
         const response = await oauth2Client.request({
